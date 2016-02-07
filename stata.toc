@@ -1,0 +1,6 @@
+*! TOC File
+v 3
+d Stata jMetrik integration project
+d Note: this project requires Java >= 8 and Stata >= 14
+
+p raschjmle Implementation of the Rasch Joint Maximum Likelihood Estimator from jMetrik in Stata

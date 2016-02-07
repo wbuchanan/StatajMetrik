@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Stata jMetrik</title>
+    <description>Integration of jMetrik in the Stata environment</description>
+    <link>https://wbuchanan.github.io/StatajMetrik/</link>
+    <atom:link href="https://wbuchanan.github.io/StatajMetrik/feed.xml" rel="self" type="application/rss+xml" />
+    <pubDate>Sun, 07 Feb 2016 05:32:00 -0600</pubDate>
+    <lastBuildDate>Sun, 07 Feb 2016 05:32:00 -0600</lastBuildDate>
+    <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Distribution Update</title>
+        <description>&lt;h1 id=&quot;new-project-page-for-raschjmle-stata-command&quot;&gt;New Project page for &lt;code&gt;raschjmle&lt;/code&gt; Stata command&lt;/h1&gt;
+&lt;p&gt;Created a new project page for the distribution of the &lt;code&gt;raschjmle&lt;/code&gt; package and future development of Stata interfaces to the psychometric methods provided by (jMetrik)[http://www.itemanalysis.com] and the (Java Psychometrics Library)[https://github.com/meyerjp3/psychometrics].  This should also make it easier and more consistent to maintain the distribution of future developments.&lt;/p&gt;
+</description>
+        <pubDate>Fri, 06 Feb 2015 23:15:00 -0600</pubDate>
+        <link>https://wbuchanan.github.io/StatajMetrik/post/2015/02/06/distribution-update.html</link>
+        <guid isPermaLink="true">https://wbuchanan.github.io/StatajMetrik/post/2015/02/06/distribution-update.html</guid>
+        
+        
+        <category>post</category>
+        
+      </item>
+    
+  </channel>
+</rss>
