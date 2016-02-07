@@ -1,0 +1,35 @@
+d 'RASCHJMLE': A Joint Maximum Likelihood Estimator for Rasch IRT models of dichotomous items.
+d
+d raschjmle is an interface to the psychometrics Java library 
+d developed by J. Patrick Meyer.  This JMLE estimator does not implement the 
+d Newton-Raphson algorithm proposed by Birnbaum (1968) (and described in detail 
+d in Baker and Kim (2004)), but instead implements a new algorithm developed by 
+d Meyer and Hailey (2012) they call proportional curve fitting.  The underlying 
+d source code is available at : 
+d
+d 				http://www.github.com/meyerjp3/psychometrics  
+d
+d This program will add variables to your data set with the names: theta, csem, 
+d infit, outfit, stdinfit, and stdoutfit.  These are the person parameter and 
+d fit statistic values corresponding to the persons used to fit the model to the data.
+d
+d KW: Rasch
+d KW: Item Response Theory
+d KW: Infit
+d KW: Outfit
+d
+d Requires: Stata version 14
+d
+d Distribution-Date: 20160207
+d
+d Author: Billy Buchanan 
+d		  Data Scientist
+d		  Office of Research, Evaluation, and Assessment
+d		  Minneapolis Public Schools
+d Support: email William [dot] Buchanan @t mpls [dot] k12 [dot] mn [dot] us
+d
+f raschjmle.ado
+f raschjmle.sthlp
+f raschjmle.mata
+f libraschjmle.mlib
+f raschjmle.jar

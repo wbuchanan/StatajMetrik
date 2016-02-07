@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="42ff37f6-0088-43a5-a525-503cbcd8ac60" name="Default" comment="" />
+    <list default="true" id="42ff37f6-0088-43a5-a525-503cbcd8ac60" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_paces_stata_stata_java_utilities_0_0_1_SNAPSHOT.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_paces_stata_stata_java_utilities_0_0_1_SNAPSHOT.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    </list>
     <ignored path="stata-jmetrik.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -35,17 +39,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RaschJMLE.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RaschJMLE.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/paces/Stata/RaschJMLE.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="666" column="70" selection-start-line="666" selection-start-column="70" selection-end-line="666" selection-end-column="70" />
+            <state vertical-scroll-proportion="0.5092593">
+              <caret line="175" column="5" selection-start-line="175" selection-start-column="5" selection-end-line="175" selection-end-column="10" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#20735#20736#0" expanded="true" />
-                <element signature="e#20760#20761#0" expanded="true" />
-                <element signature="e#20934#20935#0" expanded="true" />
-                <element signature="e#20976#20977#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,18 +54,8 @@
       <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
+            <state vertical-scroll-proportion="-14.125">
               <caret line="139" column="28" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="28" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DataSetByteArrays.class" pinned="false" current-in-tab="true">
-        <entry file="jar://$MAVEN_REPOSITORY$/org/paces/Stata/stata-java-utilities/0.0.1-SNAPSHOT/stata-java-utilities-0.0.1-SNAPSHOT.jar!/org/paces/Stata/DataSets/DataSetByteArrays.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.12077295">
-              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -86,6 +76,7 @@
   <component name="Git.Settings">
     <option name="PUSH_AUTO_UPDATE" value="true" />
     <option name="ROOT_SYNC" value="DONT_SYNC" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="AUTO_COMMIT_ON_CHERRY_PICK" value="true" />
   </component>
   <component name="GradleLocalSettings">
@@ -162,7 +153,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -196,6 +187,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="StatajMetrik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stata-jmetrik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="StatajMetrik" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="target" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -259,7 +264,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
     </panes>
   </component>
@@ -720,16 +725,28 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/paces/Stata/stata-java-utilities/0.0.1-SNAPSHOT/stata-java-utilities-0.0.1-SNAPSHOT.jar!/org/paces/Stata/DataSets/DataSetByteArrays.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/paces/Stata/IRT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="21" column="25" selection-start-line="21" selection-start-column="25" selection-end-line="21" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/paces/Stata/RaschJMLE.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="666" column="70" selection-start-line="666" selection-start-column="70" selection-end-line="666" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -764,10 +781,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -794,10 +807,6 @@
           <caret line="632" column="13" selection-start-line="632" selection-start-column="13" selection-end-line="632" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -824,10 +833,6 @@
           <caret line="618" column="13" selection-start-line="618" selection-start-column="13" selection-end-line="618" selection-end-column="13" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -854,10 +859,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -884,10 +885,6 @@
           <caret line="172" column="12" selection-start-line="172" selection-start-column="12" selection-end-line="172" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -914,10 +911,6 @@
           <caret line="172" column="12" selection-start-line="172" selection-start-column="12" selection-end-line="172" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -944,10 +937,6 @@
           <caret line="172" column="12" selection-start-line="172" selection-start-column="12" selection-end-line="172" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -981,10 +970,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1018,10 +1003,6 @@
           <caret line="618" column="62" selection-start-line="618" selection-start-column="62" selection-end-line="618" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1055,10 +1036,6 @@
           <caret line="618" column="62" selection-start-line="618" selection-start-column="62" selection-end-line="618" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1085,10 +1062,6 @@
           <caret line="618" column="62" selection-start-line="618" selection-start-column="62" selection-end-line="618" selection-end-column="62" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1115,10 +1088,6 @@
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1146,6 +1115,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/paces/Stata/stata-java-utilities/0.0.1-SNAPSHOT/stata-java-utilities-0.0.1-SNAPSHOT.jar!/org/paces/Stata/DataSets/DataSetByteArrays.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.5555556">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/paces/Stata/stata-java-utilities/0.0.1-SNAPSHOT/stata-java-utilities-0.0.1-SNAPSHOT-sources.jar!/org/paces/Stata/DataSets/DataSetByteArrays.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.25462964">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-14.125">
+          <caret line="139" column="28" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/paces/Stata/IRT.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1156,31 +1149,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/paces/Stata/RaschJMLE.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="666" column="70" selection-start-line="666" selection-start-column="70" selection-end-line="666" selection-end-column="70" />
+        <state vertical-scroll-proportion="0.5092593">
+          <caret line="175" column="5" selection-start-line="175" selection-start-column="5" selection-end-line="175" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#20735#20736#0" expanded="true" />
-            <element signature="e#20760#20761#0" expanded="true" />
-            <element signature="e#20934#20935#0" expanded="true" />
-            <element signature="e#20976#20977#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="139" column="28" selection-start-line="139" selection-start-column="28" selection-end-line="139" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/paces/Stata/stata-java-utilities/0.0.1-SNAPSHOT/stata-java-utilities-0.0.1-SNAPSHOT.jar!/org/paces/Stata/DataSets/DataSetByteArrays.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.12077295">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
