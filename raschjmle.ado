@@ -5,7 +5,7 @@ cap prog drop raschjmle
 prog def raschjmle, rclass
 
 	// Define version under which Stata should interpret the code
-	version 14
+	version 13
 	
 	// Define syntax used for the program
 	syntax varlist(min = 2 num) [if] [in] [,								 ///   
@@ -25,6 +25,28 @@ prog def raschjmle, rclass
 	// Call Java plugin to fit the model using the JMLE estimator
 	javacall org.paces.Stata.IRT rasch `varlist' `if'`in', args(`print')
 	
+	// Check calling version
+	if `c(version)' < 14 {
+	
+		// Column names for item statistics return matrix
+		loc istats Diff Diff_SE Outfit Infit Std_Outfit Std_Infit
+		
+		// Column names for person parameters return matrix
+		loc pparams Theta CSEM Outfit Infit Std_Outfit Std_Infit
+	
+	}  // End IF Block for versions of Stata prior to 14
+	
+	// For version 14 and later
+	else {
+		
+		// Column names for item statistics return matrix
+		loc istats "Diff" "Diff S.E." "Outfit" "Infit" "Std Outfit" "Std Infit"
+		
+		// Column names for person parameters return matrix
+		loc pparams "Theta" "CSEM" "Outfit" "Infit" "Std Outfit" "Std Infit"
+	
+	} // End ELSE Block for versions 14 and later
+	
 	// Assemble the item statistics from the scalars returned from Java
 	mata: itemstats()
 	
@@ -35,7 +57,7 @@ prog def raschjmle, rclass
 	mata: personparams(`progobs')
 	
 	// Label the columns of the item parameter matrix
-	mat colnames itemstats = "Diff" "Diff S.E." "Outfit" "Infit" "Std Outfit" "Std Infit"
+	mat colnames itemstats = `istats'
 	
 	// Label the rows of the item parameters matrix
 	mat rownames itemstats = `varlist'
@@ -44,7 +66,7 @@ prog def raschjmle, rclass
 	mat colnames residuals = `varlist'
 	
 	// Label person parameters matrix columns
-	mat colnames personparams = "Theta" "CSEM" "Outfit" "Infit" "Std Outfit" "Std Infit"
+	mat colnames personparams = `pparams'
 	
 	// Return matrix of item statistics
 	ret mat itemstats = itemstats

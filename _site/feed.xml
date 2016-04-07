@@ -5,14 +5,45 @@
     <description>Integration of jMetrik in the Stata environment</description>
     <link>https://wbuchanan.github.io/StatajMetrik/</link>
     <atom:link href="https://wbuchanan.github.io/StatajMetrik/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Sun, 07 Feb 2016 05:32:00 -0600</pubDate>
-    <lastBuildDate>Sun, 07 Feb 2016 05:32:00 -0600</lastBuildDate>
+    <pubDate>Thu, 07 Apr 2016 05:47:21 -0500</pubDate>
+    <lastBuildDate>Thu, 07 Apr 2016 05:47:21 -0500</lastBuildDate>
     <generator>Jekyll v2.4.0</generator>
+    
+      <item>
+        <title>Stata 13 Now Supported</title>
+        <description>&lt;h1 id=&quot;stata-13-supported&quot;&gt;Stata 13 Supported&lt;/h1&gt;
+&lt;p&gt;The &lt;code&gt;raschjmle&lt;/code&gt; command now works on Stata 13 and later.  No addition methods have been added yet, but with the refactoring of the &lt;a href=&quot;https://github.com/wbuchanan/StataJavaUtilities&quot;&gt;Stata Java Utilities&lt;/a&gt; to provide support for Stata version 13 in &lt;a href=&quot;https://github.com/wbuchanan/StataJavaUtilities13&quot;&gt;Stata Java Utilities 13&lt;/a&gt;.  However, the program does still require Java 8 or later.  You can find out which JVM Stata is using with the &lt;code&gt;query java&lt;/code&gt; command.  If you are working on OSX it would look something like:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Stata&quot;&gt;. query java
+----------------------------------------------------------------------------------------------------------------------------------------
+    Java system information
+        Java initialized    no
+    Advanced Java settings
+        set java_heapinit   16m
+        set java_heapmax    384m
+        set java_vmpath     /Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/jre/lib/server/libjvm.dylib
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note that in the example above the path &lt;code&gt;/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/jre/lib/server/libjvm.dylib&lt;/code&gt; is &lt;strong&gt;not the default JVM path set by Stata&lt;/strong&gt;.  After installing the latest version of Java, you can change teh JVM used by Stata with the &lt;code&gt;set java_vmpath&lt;/code&gt; command.  To set the JVM path above, I used the command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-Stata&quot;&gt;set java_vmpath &quot;/Library/Java/JavaVirtualMachines/jdk1.8.0_74.jdk/Contents/Home/jre/lib/server/libjvm.dylib&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Tue, 07 Apr 2015 00:38:00 -0500</pubDate>
+        <link>https://wbuchanan.github.io/StatajMetrik/post/2015/04/07/Support-For-Version-13.html</link>
+        <guid isPermaLink="true">https://wbuchanan.github.io/StatajMetrik/post/2015/04/07/Support-For-Version-13.html</guid>
+        
+        
+        <category>post</category>
+        
+      </item>
     
       <item>
         <title>Distribution Update</title>
         <description>&lt;h1 id=&quot;new-project-page-for-raschjmle-stata-command&quot;&gt;New Project page for &lt;code&gt;raschjmle&lt;/code&gt; Stata command&lt;/h1&gt;
-&lt;p&gt;Created a new project page for the distribution of the &lt;code&gt;raschjmle&lt;/code&gt; package and future development of Stata interfaces to the psychometric methods provided by (jMetrik)[http://www.itemanalysis.com] and the (Java Psychometrics Library)[https://github.com/meyerjp3/psychometrics].  This should also make it easier and more consistent to maintain the distribution of future developments.&lt;/p&gt;
+&lt;p&gt;Created a new project page for the distribution of the &lt;code&gt;raschjmle&lt;/code&gt; package and future development of Stata interfaces to the psychometric methods provided by &lt;a href=&quot;http://www.itemanalysis.com&quot;&gt;jMetrik&lt;/a&gt; and the &lt;a href=&quot;https://github.com/meyerjp3/psychometrics&quot;&gt;Java Psychometrics Library&lt;/a&gt;.  This should also make it easier and more consistent to maintain the distribution of future developments.&lt;/p&gt;
 </description>
         <pubDate>Fri, 06 Feb 2015 23:15:00 -0600</pubDate>
         <link>https://wbuchanan.github.io/StatajMetrik/post/2015/02/06/distribution-update.html</link>

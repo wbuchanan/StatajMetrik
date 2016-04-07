@@ -66,15 +66,7 @@
   <article class="post-content">
     <h1 id="rasch-model-for-binary-items-using-the-joint-maximum-likelihood-estimator">Rasch Model for Binary Items using the Joint Maximum Likelihood Estimator</h1>
 
-<p>raschjmle <em>varlist if in</em> [, <br />
-    <u>gi</u>ter(integer) <br />
-    <u>pi</u>ter(integer) <br />
-    <u>gc</u>onv(real) <br />
-    <u>pc</u>onv(real) <br />
-    <u>adj</u>ustment(real) <br />
-    <u>i</u>ntercept(real) <br />
-    <u>s</u>cale(real) <br />
-    <u>pri</u>nt(string) ]</p>
+<p>raschjmle <em>varlist [if] [in]</em> [, <u>gi</u>ter(integer)  <u>pi</u>ter(integer)  <u>gc</u>onv(real)  <u>pc</u>onv(real)  <u>adj</u>ustment(real)  <u>i</u>ntercept(real)  <u>s</u>cale(real)  <u>pri</u>nt(string) ]</p>
 
 <h2 id="options">Options</h2>
 
@@ -94,7 +86,8 @@
 
 <p><strong>print</strong> is an optional parameter used to specify what information will be printed to the Stata console (e.g., Results pane).  Passing a value of all will print the MLE iteration history log; the estimated beta parameter values, their standard errors, item level infit, outfit, standardized infit, and standardized infit; theta and the standard error of the estimates of theta; item and person parameter scale qualit statistics (e.g., variance, MSE, separation index, number of strata, reliability estimates, etc…); and the raw score to theta conversion with the conditional standard error of measurement.  Other possible values include: person (prints person information and iteration log), qaqc (scale quality and iteration log), or lookup (conversion table and iteration log).  Any other arguments passed to this parameter will use the default, which prints everything but person information to the console.</p>
 
-<h2 id="examples">Examples</h2>
+<h2 id="example">Example</h2>
+<p><em>Note: the example below uses a data set from Stata 14, but illustrates the use of the command.</em></p>
 
 <pre><code>// Load example data set used in IRT manuals
 webuse masc1.dta, clear

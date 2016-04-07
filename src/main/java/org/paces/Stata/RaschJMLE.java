@@ -1,28 +1,21 @@
 package org.paces.Stata;
 
 import com.itemanalysis.psychometrics.data.VariableName;
-import com.itemanalysis.psychometrics.irt.estimation.JointMaximumLikelihoodEstimation;
-import com.itemanalysis.psychometrics.irt.estimation.RaschFitStatistics;
-import com.itemanalysis.psychometrics.irt.estimation.RaschScaleQualityOutput;
-import com.itemanalysis.psychometrics.irt.model.Irm3PL;
-import com.itemanalysis.psychometrics.irt.model.ItemResponseModel;
+import com.itemanalysis.psychometrics.irt.estimation.*;
+import com.itemanalysis.psychometrics.irt.model.*;
 import com.itemanalysis.psychometrics.measurement.DefaultItemScoring;
 import com.itemanalysis.psychometrics.scaling.DefaultLinearTransformation;
-import com.stata.sfi.Data;
-import com.stata.sfi.Macro;
-import com.stata.sfi.SFIToolkit;
-import com.stata.sfi.Scalar;
+import com.stata.sfi.*;
 import org.paces.Stata.DataSets.DataSetByteArrays;
-import org.paces.Stata.MetaData.Meta;
-import org.paces.Stata.MetaData.Variables;
+import org.paces.Stata.MetaData.*;
+import org.paces.Stata.Utilities.MDArray;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /***
  * @author Billy Buchanan
  * @version 0.0.0
- * <h2>Class used to fit a Rasch Model to data using the Joint Maximum
+ * <h2>Class used to fit a Rasch Model to data using the JoInteger Maximum
  * Likelihood Estimator</h2>
  * <p>Some equations that may prove useful/helpful when
  * interpreting/understanding some of the parameters are detailed below.
@@ -173,7 +166,7 @@ public class RaschJMLE {
 	/***
 	 * An m x n matrix of item responses where m = persons and n = items
 	 */
-	public byte[][] thedata;
+	public Byte[][] thedata;
 
 	/***
 	 * Estimated residual error from individual item responses
@@ -186,56 +179,56 @@ public class RaschJMLE {
 	 * This value defaults to 0.3 if no user-specified value is passed to
 	 * the Stata program that calls this Java program.
 	 */
-	public double adjustment;
+	public Double adjustment;
 
 	/***
 	 * Parameter used for DefaultLinearTransformation
 	 * Documentation from com.itemanalysis.psychometrics not clear.  Will
 	 * default to a value of 1.0 if no user specified value is passed.
 	 */
-	public double intercept;
+	public Double intercept;
 
 	/***
 	 * Parameter used for DefaultLinearTransformation
 	 * Documentation from com.itemanalysis.psychometrics not clear.  Will
 	 * default to a value of 1.0 if no user specified value is passed.
 	 */
-	public double scale;
+	public Double scale;
 
 	/***
 	 * Parameter used when defining the precision to use with the
 	 * printScoreTable method.
 	 * Sets a default of 3 if nothing passed by the user
 	 */
-	public int precision;
+	public Integer precision;
 
 	/***
 	 * The number of Maximum Likelihood Iterations to use for the model
 	 * overall.  This value is set by the Stata local macro 'giter' and if
 	 * null will default to a value of 5,000.
 	 */
-	public int globaliterations;
+	public Integer globaliterations;
 
 	/***
 	 * The Global Maximum Likelihood convergence criteria.  Set by the Stata
 	 * local macro 'gconv'.  If the local macro is null this parameter is set
 	 * to a default of 0.0001.
 	 */
-	public double globalconverge;
+	public Double globalconverge;
 
 	/***
 	 * The number of Maximum Likelihood Iterations to use for the estimation
 	 * of person parameter theta.  This value is set by the Stata local macro
 	 * 'piter' and if null will default to a value of 2,500.
 	 */
-	public int personiterations;
+	public Integer personiterations;
 
 	/***
 	 * The maximum likelihood convergence criteria for the estimation of
 	 * person parameter theta.  Value is set by the Stata local macro 'pconv'
 	 * and if null is set to a default of 0.0001.
 	 */
-	public double personconverge;
+	public Double personconverge;
 
 	/***
 	 * Sets a boolean in the estimation algorithm to center the item
@@ -246,78 +239,78 @@ public class RaschJMLE {
 	public boolean centeritems;
 
 	/***
-	 * A double array containing the estimated values of the trait across
+	 * A Double array containing the estimated values of the trait across
 	 * persons.  This can be thought of as an m x 1 vector of estimates where
 	 * theta is assumed to be N(0, 1).
 	 */
-	public double[] theta;
+	public Double[] theta;
 
 	/***
-	 * A double array of estimated difficulty parameter values.  Since the
+	 * A Double array of estimated difficulty parameter values.  Since the
 	 * Rasch model constrains the discrimination parameter to 1, the only
 	 * item parameter that is freely estimated is the difficulty of the items
 	 * .  This corresponds to the location where the probability of a correct
 	 * response to the item j is 0.5.
 	 */
-	public double[] diff;
+	public Double[] diff;
 
 	/***
 	 * An array containing the conditional standard error of
 	 * measurement values for the person parameter theta estimates
 	 * following fitting the Rasch model with the JMLE estimator.
 	 */
-	public double[] personStandardErrors;
+	public Double[] personStandardErrors;
 
 	/***
 	 * An array of standard errors of the difficulty parameter estimates from
 	 * the JMLE values obtained from fitting the Rasch model to the data.
 	 */
-	public double[] diffSE;
+	public Double[] diffSE;
 
 	/***
-	 * An array of double valued estimates of item-level weighted mean
+	 * An array of Double valued estimates of item-level weighted mean
 	 * squares errors - or InFit - statistics.
 	 */
-	public double[] itemInfit;
+	public Double[] itemInfit;
 
 	/***
-	 * An array of double valued estimates of item-level unweighted mean
+	 * An array of Double valued estimates of item-level unweighted mean
 	 * squares errors - or OutFit - statistics.
 	 */
-	public double[] itemOutfit;
+	public Double[] itemOutfit;
 
 	/***
-	 * An array of double valued estimates of item-level standardized weighted
+	 * An array of Double valued estimates of item-level standardized weighted
 	 * mean squares errors - or Standardized InFit - statistics.
 	 */
-	public double[] itemStdInfit;
+	public Double[] itemStdInfit;
 
 	/***
-	 * An array of double valued estimates of item-level standardized
+	 * An array of Double valued estimates of item-level standardized
 	 * unweighted mean squares errors - or Standardized OutFit - statistics.
 	 */
-	public double[] itemStdOutfit;
+	public Double[] itemStdOutfit;
 
 	/***
-	 * An array of double valued estimates of person-level weighted mean
+	 * An array of Double valued estimates of person-level weighted mean
 	 * squares errors - or InFit - statistics.
 	 */
 	public List<Double> personInfit;
 
 	/***
-	 * An array of double valued estimates of person-level unweighted mean
+	 * An array of Double valued estimates of person-level unweighted mean
 	 * squares errors - or OutFit - statistics.
 	 */
 	public List<Double> personOutfit;
 
 	/***
-	 * An array of double valued estimates of person-level standardized weighted
+	 * An array of Double valued estimates of person-level standardized weighted
 	 * mean squares errors - or Standardized InFit - statistics.
 	 */
 	public List<Double> personStdInfit;
 
 	/***
-	 * An array of double valued estimates of person-level standardized
+	 * An array of Double valued estimates of person-level standardized
 	 * unweighted mean squares errors - or Standardized OutFit - statistics.
 	 */
 	public List<Double> personStdOutfit;
@@ -334,7 +327,7 @@ public class RaschJMLE {
 	public ItemResponseModel[] irm;
 
 	/***
-	 * Joint Maximum Likelihood Estimator as implemented in the com
+	 * JoInteger Maximum Likelihood Estimator as implemented in the com
 	 * .itemanalysis.psychometrics package (http://www.github
 	 * .com/meyerjp3/psychometrics).
 	 */
@@ -564,7 +557,7 @@ public class RaschJMLE {
 	 * @return An integer with the maximum number of maximum likelihood
 	 * iterations to use to achieve convergence.
 	 */
-	public int getGlobalIterations() {
+	public Integer getGlobalIterations() {
 		return this.globaliterations;
 	}
 
@@ -573,7 +566,7 @@ public class RaschJMLE {
 	 * @return An real valued number with the convergence criterion for the
 	 * maximum likelihood estimator overall.
 	 */
-	public double getGlobalConvergence() {
+	public Double getGlobalConvergence() {
 		return this.globalconverge;
 	}
 
@@ -583,7 +576,7 @@ public class RaschJMLE {
 	 * iterations to use to achieve convergence for the estimation of person
 	 * parameters.
 	 */
-	public int getPersonIterations() {
+	public Integer getPersonIterations() {
 		return this.personiterations;
 	}
 
@@ -593,7 +586,7 @@ public class RaschJMLE {
 	 * @return An real valued number with the convergence criterion for the
 	 * maximum likelihood estimator of person parameter theta.
 	 */
-	public double getPersonConvergence() {
+	public Double getPersonConvergence() {
 		return this.personconverge;
 	}
 
@@ -643,7 +636,7 @@ public class RaschJMLE {
 	 * Getter method for the m x n matrix of item responses.
 	 * @return A 2d Array of Item responses stored as Byte type variables.
 	 */
-	public byte[][] getTheData() {
+	public Byte[][] getTheData() {
 		return this.thedataobject.getData();
 	}
 
@@ -658,7 +651,7 @@ public class RaschJMLE {
 		this.irm = new ItemResponseModel[this.metaob.varindex.size()];
 
 		// Iterate over the items
-		for (int i = 0; i < this.metaob.varindex.size(); i++) {
+		for (Integer i = 0; i < this.metaob.varindex.size(); i++) {
 
 			// Specify a new Rasch model for the item
 			this.irm[i] = new Irm3PL(0.0, 1.0);
@@ -686,14 +679,14 @@ public class RaschJMLE {
 	 * Setter method for the JointMaximumLikelihoodEstimator class variable
 	 */
 	public void setJmle(){
-		this.jmle = new JointMaximumLikelihoodEstimation(getTheData(), getIRM());
+		this.jmle = new JointMaximumLikelihoodEstimation(MDArray.toPrimative(getTheData()), getIRM());
 	}
 
 	/***
 	 * Method used to retrieve the value of the precision member variable
 	 * @return Integer valued number for the reporting precision
 	 */
-	public int getPrecision() {
+	public Integer getPrecision() {
 		return this.precision;
 	}
 
@@ -702,7 +695,7 @@ public class RaschJMLE {
 	 * @return A real number containing the adjustment for extreme scores
 	 * used in the estimation process
 	 */
-	public double getAdjustment() {
+	public Double getAdjustment() {
 		return this.adjustment;
 	}
 
@@ -712,7 +705,7 @@ public class RaschJMLE {
 	 * @return A real valued number containing the value of the intercept
 	 * member variable
 	 */
-	public double getIntercept() {
+	public Double getIntercept() {
 		return this.intercept;
 	}
 
@@ -722,7 +715,7 @@ public class RaschJMLE {
 	 * @return A real valued number containing the value of the scale
 	 * member variable
 	 */
-	public double getScale() {
+	public Double getScale() {
 		return this.scale;
 	}
 
@@ -771,7 +764,7 @@ public class RaschJMLE {
 
 		// this.jmle.linearTransformation(getIntercept(), getScale());
 
-		// Print the MLE iteration history to the Stata Console
+		// PrInteger the MLE iteration history to the Stata Console
 		SFIToolkit.display(this.jmle.printIterationHistory());
 
 		// Estimate the item fit statstics
@@ -793,20 +786,20 @@ public class RaschJMLE {
 		this.jmle.computePersonStandardErrors();
 
 		// Temporary variable to store estimates of theta for ith subject
-		double[] tmptheta = new double[thedata.length];
+		Double[] tmptheta = new Double[thedata.length];
 
 		// Temporary variable to store the conditional standard error of
 		// measurement for the ith subject
-		double[] tmpcsem = new double[thedata.length];
+		Double[] tmpcsem = new Double[thedata.length];
 
 		// Loop over subjects
-		for (int i = 0; i < thedata.length; i++) {
+		for (Integer i = 0; i < thedata.length; i++) {
 
 			// Initialize a new RaschFitStatistics object
 			RaschFitStatistics x = this.jmle.getPersonFitStatisticsAt(i);
 
 			// Temp variable to match Stata indices
-			int obid = i + 1;
+			Integer obid = i + 1;
 
 			// Label for person-level outfit scalar
 			String oflab = "poutfit_" + obid;
@@ -862,7 +855,7 @@ public class RaschJMLE {
 	} // End of method declaration to fit the model to the data
 
 	/***
-	 * Method used to Print results to Stata Console
+	 * Method used to PrInteger results to Stata Console
 	 * This method prints general results from the estimation algorithm
 	 * to the Stata console.  Frequency tables are suppressed to save space
 	 * on the screen since these results are easily obtained by iterating
@@ -882,10 +875,10 @@ public class RaschJMLE {
 		// Prints raw to theta conversion table
 		printScoreTable();
 
-	} // End of method declaration to print the results to the Stata console
+	} // End of method declaration to prInteger the results to the Stata console
 
 	/***
-	 * Default print method excludes the person parameter output to conserve
+	 * Default prInteger method excludes the person parameter output to conserve
 	 * a bit of screen real estate.
 	 */
 	public void printStandard() {
@@ -982,7 +975,7 @@ public class RaschJMLE {
 		List<Double> psin = new ArrayList<>();
 
 		// Loop over person indices
-		for(int i = 0; i < thedata.length; i++) {
+		for(Integer i = 0; i < thedata.length; i++) {
 
 			RaschFitStatistics x = this.jmle.getPersonFitStatisticsAt(i);
 
@@ -1023,10 +1016,10 @@ public class RaschJMLE {
 	/***
 	 * Method to retrieve the estimates of \(\theta\) for the subjects in the
 	 * data set
-	 * @return An array of double objects containing the estimated \(\theta\)
+	 * @return An array of Double objects containing the estimated \(\theta\)
 	 * for each subject.
 	 */
-	public double[] getTheta() {
+	public Double[] getTheta() {
 		return this.theta;
 	}
 
@@ -1036,17 +1029,17 @@ public class RaschJMLE {
 	 * @param idx Index value identifying the ith subject
 	 * @return \(\theta\) for the ith subject
 	 */
-	public double getTheta(int idx) {
+	public Double getTheta(Integer idx) {
 		return this.theta[idx];
 	}
 
 	/***
 	 * Method to retrieve the estimates of \(\sigma^2\) for the subjects in the
 	 * data set
-	 * @return An array of double objects containing the estimated \(\sigma^2\)
+	 * @return An array of Double objects containing the estimated \(\sigma^2\)
 	 * for each subject.
 	 */
-	public double[] getCSEM() {
+	public Double[] getCSEM() {
 		return this.personStandardErrors;
 	}
 
@@ -1056,53 +1049,53 @@ public class RaschJMLE {
 	 * @param idx Index value identifying the ith subject
 	 * @return \(\sigma^2\) for the ith subject
 	 */
-	public double getCSEM(int idx) {
+	public Double getCSEM(Integer idx) {
 		return this.personStandardErrors[idx];
 	}
 
 	/***
-	 * Method to get the List of double objects with the person infit statistics
-	 * @return A list of double type objects containing estimated person infit
+	 * Method to get the List of Double objects with the person infit statistics
+	 * @return A list of Double type objects containing estimated person infit
 	 */
 	public List<Double> getPersonInfit() {
 		return this.personInfit;
 	}
 
 	/***
-	 * Method to get the double objects with the estimated infit statistic
+	 * Method to get the Double objects with the estimated infit statistic
 	 * for the ith subject
 	 * @param idx The index value to identify the ith subject
-	 * @return A double type object containing estimated person-level infit
+	 * @return A Double type object containing estimated person-level infit
 	 * statistic for the ith subject
 	 */
-	public double getPersonInfit(int idx) {
+	public Double getPersonInfit(Integer idx) {
 		return this.personInfit.get(idx);
 	}
 
 	/***
-	 * Method to get the List of double objects with the person outfit
+	 * Method to get the List of Double objects with the person outfit
 	 * statistics
-	 * @return A list of double type objects containing estimated person outfit
+	 * @return A list of Double type objects containing estimated person outfit
 	 */
 	public List<Double> getPersonOutfit() {
 		return this.personOutfit;
 	}
 
 	/***
-	 * Method to get the double objects with the estimated outfit statistic
+	 * Method to get the Double objects with the estimated outfit statistic
 	 * for the ith subject
 	 * @param idx The index value to identify the ith subject
-	 * @return A double type object containing estimated person-level outfit
+	 * @return A Double type object containing estimated person-level outfit
 	 * statistic for the ith subject
 	 */
-	public double getPersonOutfit(int idx) {
+	public Double getPersonOutfit(Integer idx) {
 		return this.personOutfit.get(idx);
 	}
 
 	/***
-	 * Method to get the List of double objects with the standardized
+	 * Method to get the List of Double objects with the standardized
 	 * person-level infit statistics
-	 * @return A list of double type objects containing estimated
+	 * @return A list of Double type objects containing estimated
 	 * standardized person-level infit statistics
 	 */
 	public List<Double> getPersonStdInfit() {
@@ -1110,20 +1103,20 @@ public class RaschJMLE {
 	}
 
 	/***
-	 * Method to get the double objects with the estimated standardized
+	 * Method to get the Double objects with the estimated standardized
 	 * infit statistic for the ith subject
 	 * @param idx The index value to identify the ith subject
-	 * @return A double type object containing estimated standardized
+	 * @return A Double type object containing estimated standardized
 	 * person-level infit statistic for the ith subject
 	 */
-	public double getPersonStdInfit(int idx) {
+	public Double getPersonStdInfit(Integer idx) {
 		return this.personStdInfit.get(idx);
 	}
 
 	/***
-	 * Method to get the List of double objects with the standardized
+	 * Method to get the List of Double objects with the standardized
 	 * person-level infit statistics
-	 * @return A list of double type objects containing estimated
+	 * @return A list of Double type objects containing estimated
 	 * standardized person-level infit statistics
 	 */
 	public List<Double> getPersonStdOutfit() {
@@ -1131,13 +1124,13 @@ public class RaschJMLE {
 	}
 
 	/***
-	 * Method to get the double objects with the estimated standardized
+	 * Method to get the Double objects with the estimated standardized
 	 * outfit statistic for the ith subject
 	 * @param idx Index of the ith individual
-	 * @return A double type object containing estimated standardized
+	 * @return A Double type object containing estimated standardized
 	 * person-level outfit statistic for the ith subject
 	 */
-	public double getPersonStdOutfit(int idx) {
+	public Double getPersonStdOutfit(Integer idx) {
 		return this.personStdOutfit.get(idx);
 	}
 
@@ -1172,22 +1165,22 @@ public class RaschJMLE {
 		Data.addVarDouble("csem");
 
 		// Get variable index for the outfit variable
-		int outfit = Data.getVarIndex("outfit");
+		Integer outfit = Data.getVarIndex("outfit");
 
 		// Get variable index for the infit variable
-		int infit = Data.getVarIndex("infit");
+		Integer infit = Data.getVarIndex("infit");
 
 		// Get variable index for the stdoutfit variable
-		int stdoutfit = Data.getVarIndex("stdoutfit");
+		Integer stdoutfit = Data.getVarIndex("stdoutfit");
 
 		// Get variable index for the stdinfit variable
-		int stdinfit = Data.getVarIndex("stdinfit");
+		Integer stdinfit = Data.getVarIndex("stdinfit");
 
 		// Get variable index for the theta variable
-		int theta = Data.getVarIndex("theta");
+		Integer theta = Data.getVarIndex("theta");
 
 		// Get variable index for the csem variable
-		int csem = Data.getVarIndex("csem");
+		Integer csem = Data.getVarIndex("csem");
 
 		// Add variable label to the outfit variable in Stata
 		Data.setVarLabel(outfit, "Person-level Outfit (Unweighted MSE)");
@@ -1208,10 +1201,10 @@ public class RaschJMLE {
 		Data.setVarLabel(csem, "Conditional Standard Error of Measurement");
 
 		// Loop over the variables passed to the Java application
-		for(int i = 0; i < this.thedata.length; i++) {
+		for(Integer i = 0; i < this.thedata.length; i++) {
 
 			// Get the Stata variable name for this variable index
-			long obid = (long) i + 1;
+			Integer obid = i + 1;
 
 			// Set scalar value for the item-level outfit
 			Data.storeNum(outfit, obid, getPersonOutfit(i));
@@ -1258,26 +1251,26 @@ public class RaschJMLE {
 	  RaschFitStatistics[] fitstats = new RaschFitStatistics[this.metaob.varindex.size()];
 
 	  // Create temporary object to store item outfit statistics
-	  double[] iout = new double[this.metaob.varindex.size()];
+	  Double[] iout = new Double[this.metaob.varindex.size()];
 
 	  // Create temporary object to store item infit statistics
-	  double[] iin = new double[this.metaob.varindex.size()];
+	  Double[] iin = new Double[this.metaob.varindex.size()];
 
 	  // Create temporary object to store item standardized outfit
 	  // statistics
-	  double[] isout = new double[this.metaob.varindex.size()];
+	  Double[] isout = new Double[this.metaob.varindex.size()];
 
 	  // Create temporary object to store item standardized infit statistics
-	  double[] isin = new double[this.metaob.varindex.size()];
+	  Double[] isin = new Double[this.metaob.varindex.size()];
 
 	  // Create temp object to store difficulty parameters
-	  double[] idif = new double[this.metaob.varindex.size()];
+	  Double[] idif = new Double[this.metaob.varindex.size()];
 
 	  // Create temp object to store SE around difficulty estimates
-	  double[] idifse = new double[this.metaob.varindex.size()];
+	  Double[] idifse = new Double[this.metaob.varindex.size()];
 
 	  // Loop over person indices
-	  for(int i = 0; i < this.metaob.varindex.size(); i++) {
+	  for(Integer i = 0; i < this.metaob.varindex.size(); i++) {
 
 		 // Populate the array elements of the RaschFitStatistics object
 		 // using the getPersonFitStatisticsAt(person index) method from
@@ -1349,17 +1342,17 @@ public class RaschJMLE {
 	 */
 	public void setResiduals() {
 
-		// Initialize a new 2d array of double valued objects with dimensions
+		// Initialize a new 2d array of Double valued objects with dimensions
 		// m x n, where m is the number of observations (rows) and n is the
 		// number of items (variables/columns) in the test data.
 		Double[][] res = new Double[this.metaob.obsindex.size()][this.metaob
 				.varindex.size()];
 
 		// Loop over observations
-		for(int i = 0; i < this.metaob.obsindex.size(); i++) {
+		for(Integer i = 0; i < this.metaob.obsindex.size(); i++) {
 
 			// Loop over items
-			for (int j = 0; j < this.metaob.varindex.size(); j++) {
+			for (Integer j = 0; j < this.metaob.varindex.size(); j++) {
 
 				// Populate the jth cell for the ith observation with the
 				// residual for that person/item
@@ -1380,7 +1373,7 @@ public class RaschJMLE {
 	 * @return An array of real valued numbers containing the coefficients
 	 * for the difficulty parameters
 	 */
-	public double[] getDiff() {
+	public Double[] getDiff() {
 		return this.diff;
 	}
 
@@ -1390,7 +1383,7 @@ public class RaschJMLE {
 	 * @return A real number with the estimated coefficient on the difficulty
 	 * parameter for the jth item.
 	 */
-	public double getDiff(int idx) {
+	public Double getDiff(Integer idx) {
 		return this.diff[idx];
 	}
 
@@ -1400,7 +1393,7 @@ public class RaschJMLE {
 	 * @return An array of real valued numbers containing the standard errors
 	 * on the difficulty parameter estimates
 	 */
-	public double[] getDiffSE() {
+	public Double[] getDiffSE() {
 		return this.diffSE;
 	}
 
@@ -1411,7 +1404,7 @@ public class RaschJMLE {
 	 * @return A real number with the estimated standard error on the difficulty
 	 * parameter estimate for the jth item.
 	 */
-	public double getDiffSE(int idx) {
+	public Double getDiffSE(Integer idx) {
 		return this.diffSE[idx];
 	}
 
@@ -1432,7 +1425,7 @@ public class RaschJMLE {
 	 * @return An array of real valued numbers containing estimated
 	 * item-level infit statistics for all items
 	 */
-	public double[] getItemInfit() {
+	public Double[] getItemInfit() {
 		return this.itemInfit;
 	}
 
@@ -1442,7 +1435,7 @@ public class RaschJMLE {
 	 * @return A real number with the estimated infit statistic for the jth
 	 * item.
 	 */
-	public double getItemInfit(int idx) {
+	public Double getItemInfit(Integer idx) {
 		return this.itemInfit[idx];
 	}
 
@@ -1460,7 +1453,7 @@ public class RaschJMLE {
 	 * @return An array of real valued numbers containing estimated
 	 * item-level outfit statistics for all items
 	 */
-	public double[] getItemOutfit() {
+	public Double[] getItemOutfit() {
 		return this.itemOutfit;
 	}
 
@@ -1470,7 +1463,7 @@ public class RaschJMLE {
 	 * @return A real number with the estimated outfit statistic for the jth
 	 * item.
 	 */
-	public double getItemOutfit(int idx) {
+	public Double getItemOutfit(Integer idx) {
 		return this.itemOutfit[idx];
 	}
 
@@ -1479,7 +1472,7 @@ public class RaschJMLE {
 	 * @return An array of real valued numbers containing estimated
 	 * standardized item-level infit statistics for all items
 	 */
-	public double[] getItemStdInfit() {
+	public Double[] getItemStdInfit() {
 		return this.itemStdInfit;
 	}
 
@@ -1490,7 +1483,7 @@ public class RaschJMLE {
 	 * @return A real number with the estimated standardized infit statistic
 	 * for the jth item.
 	 */
-	public double getItemStdInfit(int idx) {
+	public Double getItemStdInfit(Integer idx) {
 		return this.itemStdInfit[idx];
 	}
 
@@ -1499,7 +1492,7 @@ public class RaschJMLE {
 	 * @return An array of real valued numbers containing estimated
 	 * standardized item-level outfit statistics for all items
 	 */
-	public double[] getItemStdOutfit() {
+	public Double[] getItemStdOutfit() {
 		return this.itemStdOutfit;
 	}
 
@@ -1510,7 +1503,7 @@ public class RaschJMLE {
 	 * @return A real number with the estimated standardized outfit statistic
 	 * for the jth item.
 	 */
-	public double getItemStdOutfit(int idx) {
+	public Double getItemStdOutfit(Integer idx) {
 		return this.itemStdOutfit[idx];
 	}
 
@@ -1528,7 +1521,7 @@ public class RaschJMLE {
 	 * @param obid Index for the ith person
 	 * @return A real valued vector of item-level residuals for the ith person
 	 */
-	public Double[] getResiduals(int obid) {
+	public Double[] getResiduals(Integer obid) {
 		return this.residuals[obid];
 	}
 
@@ -1540,7 +1533,7 @@ public class RaschJMLE {
 	 * @return A real valued difference between the observed and expected
 	 * response of the ith subject to the jth item.
 	 */
-	public double getResiduals(int obid, int varid) {
+	public Double getResiduals(Integer obid, Integer varid) {
 		return this.residuals[obid][varid];
 	}
 
@@ -1552,16 +1545,16 @@ public class RaschJMLE {
 	public void returnResiduals() {
 
 		// Loop over the observations
-		for(int i = 0; i < this.metaob.obsindex.size(); i++) {
+		for(Integer i = 0; i < this.metaob.obsindex.size(); i++) {
 
 			// Loop over the variables
-			for (int j = 0; j < this.metaob.varindex.size(); j++) {
+			for (Integer j = 0; j < this.metaob.varindex.size(); j++) {
 
 				// Adjust the row index to match Stata row indices
-				int row = i + 1;
+				Integer row = i + 1;
 
 				// Adjust the column index to match Stata column indices
-				int col = j + 1;
+				Integer col = j + 1;
 
 				// Create a name for the scalar
 				String resid = "res_" + row + "_" + col;
@@ -1584,7 +1577,7 @@ public class RaschJMLE {
 	public void returnItemParameters() {
 
 		// Loop over the variables passed to the Java application
-		for(int i = 0; i < this.metaob.varindex.size(); i++) {
+		for(Integer i = 0; i < this.metaob.varindex.size(); i++) {
 
 			// Get the Stata variable name for this variable index
 			String varname = this.metaob.statavars.getVariableName(i);
@@ -1611,5 +1604,6 @@ public class RaschJMLE {
 		} // End Loop over variables
 
 	} // End method declaration to return item parameters to Stata
+
 
 } // End of RaschJMLE class object declaration
