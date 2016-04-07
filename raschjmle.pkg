@@ -18,9 +18,9 @@ d KW: Item Response Theory
 d KW: Infit
 d KW: Outfit
 d
-d Requires: Stata version 14
+d Requires: Stata version 13
 d
-d Distribution-Date: 20160207
+d Distribution-Date: 20160407
 d
 d Author: Billy Buchanan 
 d		  Data Scientist

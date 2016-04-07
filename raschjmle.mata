@@ -162,12 +162,12 @@ void personparams(real scalar obs) {
 // mata mosave personparams(), dir(`"`c(sysdir_personal)'"') replace
 
 // Creates a mata library
-mata mlib create libraschjmle, dir(`"`c(sysdir_personal)'"') replace
-// mata mlib create libraschjmle, dir(`"`c(pwd)'"') replace
+// mata mlib create libraschjmle, dir(`"`c(sysdir_personal)'"') replace
+mata mlib create libraschjmle, dir(`"`c(pwd)'"') replace
 
 // Adds mata functions to the library
-mata mlib add libraschjmle itemstats() residuals() personparams(), dir(`"`c(sysdir_personal)'"')
-// mata mlib add libraschjmle itemstats() residuals() personparams(), dir(`"`c(pwd)'"')
+// mata mlib add libraschjmle itemstats() residuals() personparams(), dir(`"`c(sysdir_personal)'"')
+mata mlib add libraschjmle itemstats() residuals() personparams(), dir(`"`c(pwd)'"')
 
 // End of declaration of Mata functions
 end
