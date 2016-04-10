@@ -1,6 +1,6 @@
 package org.paces.Stata;
 
-import com.stata.sfi.Macro;
+import org.paces.Stata.MetaData.Meta;
 
 /**
  * @author Billy Buchanan
@@ -18,11 +18,27 @@ public class IRT {
 	 */
 	public static int rasch(String[] args) {
 
-		// Fit the model to the data
-		RaschJMLE raschmodel = new RaschJMLE(args);
+		Meta m = new Meta();
+
+		Integer giter = Integer.valueOf(args[0]);
+
+		Integer piter = Integer.valueOf(args[1]);
+
+		Double gconv = Double.valueOf(args[2]);
+		Double pconv = Double.valueOf(args[3]);
+		Double adjustment = Double.valueOf(args[4]);
+		Double intercept = Double.valueOf(args[5]);
+		Double scale = Double.valueOf(args[6]);
+		Integer precision = Integer.valueOf(args[7]);
+
+		Boolean centitems = Boolean.valueOf(args[8]);
 
 		// Get the print option from the Stata ado wrapper
-		String printopt = Macro.getLocalSafe("print");
+		String printopt = args[9];
+
+		// Fit the model to the data
+		RaschJMLE raschmodel = new RaschJMLE(m, giter, piter, gconv, pconv,
+			adjustment, intercept, scale, precision, centitems);
 
 		// Switch used to define which statistics to print out for the end user
 		switch (printopt) {
