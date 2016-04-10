@@ -1,5 +1,3 @@
 org/paces/Stata/IRT.class
 org/paces/Stata/Rasch/RaschPCM.class
 org/paces/Stata/RaschJMLE.class
-org/paces/Stata/Utilities/Utilities.class
-org/paces/Stata/Utilities/MDArray.class

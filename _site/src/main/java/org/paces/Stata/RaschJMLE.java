@@ -8,7 +8,7 @@ import com.itemanalysis.psychometrics.scaling.DefaultLinearTransformation;
 import com.stata.sfi.*;
 import org.paces.Stata.DataSets.DataSetByteArrays;
 import org.paces.Stata.MetaData.*;
-import org.paces.Stata.Utilities.MDArray;
+import org.paces.Stata.Utilities.*;
 
 import java.util.*;
 
@@ -236,7 +236,7 @@ public class RaschJMLE {
 	 * if null will set the boolean to false, if active it sets the boolean
 	 * to true.
 	 */
-	public boolean centeritems;
+	public Boolean centeritems;
 
 	/***
 	 * A Double array containing the estimated values of the trait across
@@ -334,22 +334,37 @@ public class RaschJMLE {
 	public JointMaximumLikelihoodEstimation jmle;
 
 	/***
-	 * Constructor method for class
-	 * @param args Arguments passed from javacall
+	 * Class for fitting Rasch Models with the JMLE estimator
+	 * @param m A Meta class object used to construct the data representation
+	 *             from the data loaded in Stata
+	 * @param giter The number of global iterations
+	 * @param piter The number of person-parameter specific iterations
+	 * @param gconv The global convergence criterion
+	 * @param pconv The person-parameter specific convergence criterion
+	 * @param adjustment The adjustment to use for all 0/1 responses by person
+	 * @param intercept The intercept value used when scaling the results
+	 * @param scale The scale (slope) value used when scaling the results
+	 * @param precision The precision with which to return the results
+	 * @param centitems Boolean indicating whether or not items should be
+	 *                     centered
 	 */
-	public RaschJMLE(String[] args) {
-		setGlobalConvergence();
-		setGlobalIterations();
-		setPersonConvergence();
-		setPersonIterations();
-		setCenterItems();
-		setAdjustment();
-		setScale();
-		setPrecision();
-		setIntercept();
-		setMeta(args);
-		setTheDataObject();
-		setTheData();
+	public RaschJMLE(Meta m, Integer giter, Integer piter, Double gconv,
+	                 Double pconv, Double adjustment, Double intercept,
+	                 Double scale, Integer precision, Boolean centitems) {
+
+		this.metaob = m;
+		this.adjustment = adjustment;
+		this.intercept = intercept;
+		this.scale = scale;
+		this.precision = precision;
+		this.globaliterations = giter;
+		this.globalconverge = gconv;
+		this.personiterations = piter;
+		this.personconverge = pconv;
+		this.centeritems = centitems;
+		this.thedataobject = new DataSetByteArrays(m);
+		this.thedata = this.thedataobject.getData();
+		this.stvars = this.metaob.getStatavars();
 		setIRM();
 		setJmle();
 		fitModel();
@@ -369,6 +384,7 @@ public class RaschJMLE {
 	 * adjusting for extreme scores, see http://www.winsteps
 	 * .com/facetman/xtremescore.htm.
 	 */
+	@Deprecated
 	public void setAdjustment() {
 
 		// Check for value passed to adjustment argument.  If none passed,
@@ -384,6 +400,7 @@ public class RaschJMLE {
 	 * A setter method to set the Global Iterations variable/parameter
 	 * If no value is passed the default value of 5,000 is used.
 	 */
+	@Deprecated
 	public void setGlobalIterations() {
 
 		// Check to see if the local macro has a value
@@ -408,6 +425,7 @@ public class RaschJMLE {
 	 * variable/parameter
 	 * If no value is passed, the default of 0.001 is used.
 	 */
+	@Deprecated
 	public void setGlobalConvergence() {
 
 		// Check to see if the local macro has a value
@@ -432,6 +450,7 @@ public class RaschJMLE {
 	 * variable/parameter
 	 * If the user does not supply a value, the default 0.001 is used.
 	 */
+	@Deprecated
 	public void setPersonConvergence() {
 
 		// Check whether or not the user passed a person convergence
@@ -456,6 +475,7 @@ public class RaschJMLE {
 	 * A setter method to set the Person Iterations variable/parameter
 	 * If no value is passed, the default of 5,000 is used.
 	 */
+	@Deprecated
 	public void setPersonIterations() {
 
 		// Did user pass a person max iteration value
@@ -482,6 +502,7 @@ public class RaschJMLE {
 	 * modeling.  If false, person parameters are centered around
 	 * \(\mu_{\theta}\).
 	 */
+	@Deprecated
 	public void setCenterItems() {
 
 		// Check if centitems option is activated.  If not, set the
@@ -503,6 +524,7 @@ public class RaschJMLE {
 	 * value, \(\alpha\) is the value passed to the intercept parameter (or 0
 	 * .0), and \(\beta\) is the value passed to the scale parameter (or 1.0).
 	 */
+	@Deprecated
 	public void setIntercept() {
 
 		// If user does not specify a value use 1.0
@@ -525,6 +547,7 @@ public class RaschJMLE {
 	 * value, \(\alpha\) is the value passed to the intercept parameter (or 0
 	 * .0), and \(\beta\) is the value passed to the scale parameter (or 1.0).
 	 */
+	@Deprecated
 	public void setScale() {
 
 		// If user does not specify a value use 1.0
@@ -541,6 +564,7 @@ public class RaschJMLE {
 	 * Used to set the precision parameter value for the method to
 	 * printScoreTable
 	 */
+	@Deprecated
 	public void setPrecision() {
 
 		// If user does not specify a value use 9
@@ -604,22 +628,18 @@ public class RaschJMLE {
 	 * Setter method to create Meta object for class
 	 * @param args Arguments passed from javacall/class constructor
 	 */
+	@Deprecated
 	public void setMeta(String[] args) {
 
-		this.metaob = new Meta(args);
+		this.metaob = new Meta();
 		this.stvars = this.metaob.getStatavars();
 	}
 
-	/***
-	 * Setter method for creating a data object containing the item responses
-	 */
-	public void setTheDataObject() {
-		this.thedataobject = new DataSetByteArrays(getMetaOb());
-	}
 
 	/***
 	 * Setter method for the matrix containing the item responses
 	 */
+	@Deprecated
 	public void setTheData() {
 		this.thedata = this.thedataobject.getData();
 	}
@@ -647,17 +667,19 @@ public class RaschJMLE {
 	 */
 	public void setIRM(){
 
-		// Creates a temporary array of item response model objects
-		this.irm = new ItemResponseModel[this.metaob.varindex.size()];
+		Integer nvars = this.stvars.getVariableIndex().size();
 
-		// Iterate over the items
-		for (Integer i = 0; i < this.metaob.varindex.size(); i++) {
+		// Creates a temporary array of item response model objects
+		this.irm = new ItemResponseModel[nvars];
+
+		// Loop over items
+		for (Integer i = 0; i < nvars; i++) {
 
 			// Specify a new Rasch model for the item
 			this.irm[i] = new Irm3PL(0.0, 1.0);
 
 			// Set the variable name based on the variables passed to javacall
-			this.irm[i].setName(new VariableName(this.metaob.statavars.getVariableName(i)));
+			this.irm[i].setName(new VariableName(this.stvars.getVariableName(i)));
 
 			// Set the item scoring parameter to the default
 			this.irm[i].setItemScoring(new DefaultItemScoring(false));
@@ -679,7 +701,7 @@ public class RaschJMLE {
 	 * Setter method for the JointMaximumLikelihoodEstimator class variable
 	 */
 	public void setJmle(){
-		this.jmle = new JointMaximumLikelihoodEstimation(MDArray.toPrimative(getTheData()), getIRM());
+		this.jmle = new JointMaximumLikelihoodEstimation(MDArrays.toPrimative(getTheData()), getIRM());
 	}
 
 	/***
@@ -974,8 +996,8 @@ public class RaschJMLE {
 		// Create temporary object to store person standardized infit statistics
 		List<Double> psin = new ArrayList<>();
 
-		// Loop over person indices
-		for(Integer i = 0; i < thedata.length; i++) {
+		// Loop over observations
+		for(Integer i = 0; i < this.metaob.getObs13().size(); i++) {
 
 			RaschFitStatistics x = this.jmle.getPersonFitStatisticsAt(i);
 
@@ -1200,8 +1222,8 @@ public class RaschJMLE {
 		// Add variable label to the csem variable in Stata
 		Data.setVarLabel(csem, "Conditional Standard Error of Measurement");
 
-		// Loop over the variables passed to the Java application
-		for(Integer i = 0; i < this.thedata.length; i++) {
+		// Loop over observations
+		for(Integer i = 0; i < this.metaob.getObsindex().size(); i++) {
 
 			// Get the Stata variable name for this variable index
 			Integer obid = i + 1;
@@ -1247,61 +1269,63 @@ public class RaschJMLE {
 	 */
 	public void setItemFitStatistics() {
 
-	  // Initialize a new array of RaschFitStatistics objects
-	  RaschFitStatistics[] fitstats = new RaschFitStatistics[this.metaob.varindex.size()];
+		Integer arraySize = this.stvars.getNvars();
 
-	  // Create temporary object to store item outfit statistics
-	  Double[] iout = new Double[this.metaob.varindex.size()];
+		// Initialize a new array of RaschFitStatistics objects
+		RaschFitStatistics[] fitstats = new RaschFitStatistics[arraySize];
 
-	  // Create temporary object to store item infit statistics
-	  Double[] iin = new Double[this.metaob.varindex.size()];
+		// Create temporary object to store item outfit statistics
+		Double[] iout = new Double[arraySize];
 
-	  // Create temporary object to store item standardized outfit
-	  // statistics
-	  Double[] isout = new Double[this.metaob.varindex.size()];
+		// Create temporary object to store item infit statistics
+		Double[] iin = new Double[arraySize];
 
-	  // Create temporary object to store item standardized infit statistics
-	  Double[] isin = new Double[this.metaob.varindex.size()];
+		// Create temporary object to store item standardized outfit
+		// statistics
+		Double[] isout = new Double[arraySize];
 
-	  // Create temp object to store difficulty parameters
-	  Double[] idif = new Double[this.metaob.varindex.size()];
+		// Create temporary object to store item standardized infit statistics
+		Double[] isin = new Double[arraySize];
 
-	  // Create temp object to store SE around difficulty estimates
-	  Double[] idifse = new Double[this.metaob.varindex.size()];
+		// Create temp object to store difficulty parameters
+		Double[] idif = new Double[arraySize];
 
-	  // Loop over person indices
-	  for(Integer i = 0; i < this.metaob.varindex.size(); i++) {
+		// Create temp object to store SE around difficulty estimates
+		Double[] idifse = new Double[arraySize];
 
-		 // Populate the array elements of the RaschFitStatistics object
-		 // using the getPersonFitStatisticsAt(person index) method from
-		 // the JointMaximumLikelihoodEstimator class object of the com
-		 // .itemanalysis.psychometrics package.
-		 fitstats[i] = this.jmle.getItemFitStatisticsAt(i);
+		// Loop over person indices
+		for(Integer i = 0; i < this.stvars.getVariableIndex().size(); i++) {
 
-		 // Populate the pout temp variable with the unweighted mean
-		 // squared error (or Outfit) statistic
-		 iout[i] = fitstats[i].getUnweightedMeanSquare();
+			 // Populate the array elements of the RaschFitStatistics object
+			 // using the getPersonFitStatisticsAt(person index) method from
+			 // the JointMaximumLikelihoodEstimator class object of the com
+			 // .itemanalysis.psychometrics package.
+			 fitstats[i] = this.jmle.getItemFitStatisticsAt(i);
 
-		 // Populate the pin temp variable with the weighted mean
-		 // squared error (or Infit) statistic
-		 iin[i] = fitstats[i].getWeightedMeanSquare();
+			 // Populate the pout temp variable with the unweighted mean
+			 // squared error (or Outfit) statistic
+			 iout[i] = fitstats[i].getUnweightedMeanSquare();
 
-		 // Populate the psout temp variable with the standardized
-		 // unweighted mean squared error (or Outfit) statistic
-		 isout[i] = fitstats[i].getStandardizedUnweightedMeanSquare();
+			 // Populate the pin temp variable with the weighted mean
+			 // squared error (or Infit) statistic
+			 iin[i] = fitstats[i].getWeightedMeanSquare();
 
-		 // Populate the psin temp variable with the standardized
-		 // weighted mean squared error (or Infit) statistic
-		 isin[i] = fitstats[i].getStandardizedWeightedMeanSquare();
+			 // Populate the psout temp variable with the standardized
+			 // unweighted mean squared error (or Outfit) statistic
+			 isout[i] = fitstats[i].getStandardizedUnweightedMeanSquare();
 
-		 // Populate the difficulty parameter temp variable
-		 idif[i] = irm[i].getDifficulty();
+			 // Populate the psin temp variable with the standardized
+			 // weighted mean squared error (or Infit) statistic
+			 isin[i] = fitstats[i].getStandardizedWeightedMeanSquare();
 
-		 // Populate the standard errors around the difficulty parameter
-		 // estimates
-		 idifse[i] = irm[i].getDifficultyStdError();
+			 // Populate the difficulty parameter temp variable
+			 idif[i] = irm[i].getDifficulty();
 
-	  } // End of Loop over persons
+			 // Populate the standard errors around the difficulty parameter
+			 // estimates
+			 idifse[i] = irm[i].getDifficultyStdError();
+
+		  } // End of Loop over persons
 
 	  // Set item-level outfit variable to the value of the iout temp variable
 	  this.itemOutfit = iout;
@@ -1345,14 +1369,14 @@ public class RaschJMLE {
 		// Initialize a new 2d array of Double valued objects with dimensions
 		// m x n, where m is the number of observations (rows) and n is the
 		// number of items (variables/columns) in the test data.
-		Double[][] res = new Double[this.metaob.obsindex.size()][this.metaob
-				.varindex.size()];
+		Double[][] res = new Double[this.metaob.getStataobs().getNobs()
+			.intValue()][this.stvars.getNvars()];
 
 		// Loop over observations
-		for(Integer i = 0; i < this.metaob.obsindex.size(); i++) {
+		for(Integer i = 0; i < this.metaob.getObsindex().size(); i++) {
 
 			// Loop over items
-			for (Integer j = 0; j < this.metaob.varindex.size(); j++) {
+			for (Integer j = 0; j < this.stvars.getVariableIndex().size(); j++) {
 
 				// Populate the jth cell for the ith observation with the
 				// residual for that person/item
@@ -1544,11 +1568,11 @@ public class RaschJMLE {
 	 */
 	public void returnResiduals() {
 
-		// Loop over the observations
-		for(Integer i = 0; i < this.metaob.obsindex.size(); i++) {
+		// Loop over observations
+		for(Integer i = 0; i < this.metaob.getObsindex().size(); i++) {
 
-			// Loop over the variables
-			for (Integer j = 0; j < this.metaob.varindex.size(); j++) {
+			// Loop over items
+			for (Integer j = 0; j < this.stvars.getVariableIndex().size(); j++) {
 
 				// Adjust the row index to match Stata row indices
 				Integer row = i + 1;
@@ -1576,11 +1600,11 @@ public class RaschJMLE {
 	 */
 	public void returnItemParameters() {
 
-		// Loop over the variables passed to the Java application
-		for(Integer i = 0; i < this.metaob.varindex.size(); i++) {
+		// Loop over items
+		for (Integer i = 0; i < this.stvars.getVariableIndex().size(); i++) {
 
 			// Get the Stata variable name for this variable index
-			String varname = this.metaob.statavars.getVariableName(i);
+			String varname = this.stvars.getVariableName(i);
 
 			// Set scalar value for the item-level outfit
 			Scalar.setValue(varname + "_outfit", getItemOutfit(i));

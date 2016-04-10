@@ -12,7 +12,7 @@ import com.itemanalysis.psychometrics.scaling.DefaultLinearTransformation;
 import com.stata.sfi.*;
 import org.paces.Stata.DataSets.*;
 import org.paces.Stata.MetaData.*;
-import org.paces.Stata.Utilities.MDArray;
+import org.paces.Stata.Utilities.*;
 
 import java.util.*;
 
@@ -610,7 +610,7 @@ public class RaschPCM {
 	 */
 	public void setMeta(String[] args) {
 
-		this.metaob = new Meta(args);
+		this.metaob = new Meta();
 		this.stvars = this.metaob.getStatavars();
 	}
 
@@ -652,16 +652,16 @@ public class RaschPCM {
 	public void setIRM(){
 
 		// Creates a temporary array of item response model objects
-		this.irm = new ItemResponseModel[this.metaob.varindex.size()];
+		this.irm = new ItemResponseModel[this.stvars.getVariableIndex().size()];
 
 		// Iterate over the items
-		for (int i = 0; i < this.metaob.varindex.size(); i++) {
+		for (Integer i : this.metaob.getVarindex()) {
 
 			// Specify a new Rasch model for the item
 			this.irm[i] = new Irm3PL(0.0, 1.0);
 
 			// Set the variable name based on the variables passed to javacall
-			this.irm[i].setName(new VariableName(this.metaob.statavars.getVariableName(i)));
+			this.irm[i].setName(new VariableName(this.stvars.getVariableName(i)));
 
 			// Set the item scoring parameter to the default
 			this.irm[i].setItemScoring(new DefaultItemScoring(false));
@@ -683,7 +683,7 @@ public class RaschPCM {
 	 * Setter method for the JointMaximumLikelihoodEstimator class variable
 	 */
 	public void setJmle(){
-		this.jmle = new JointMaximumLikelihoodEstimation(MDArray.toPrimative(getTheData()), getIRM());
+		this.jmle = new JointMaximumLikelihoodEstimation(MDArrays.toPrimative(getTheData()), getIRM());
 	}
 
 	/***
@@ -1251,30 +1251,32 @@ public class RaschPCM {
 	 */
 	public void setItemFitStatistics() {
 
+		Integer arraySize = this.stvars.getNvars();
+
 		// Initialize a new array of RaschFitStatistics objects
-		RaschFitStatistics[] fitstats = new RaschFitStatistics[this.metaob.varindex.size()];
+		RaschFitStatistics[] fitstats = new RaschFitStatistics[arraySize];
 
 		// Create temporary object to store item outfit statistics
-		Double[] iout = new Double[this.metaob.varindex.size()];
+		Double[] iout = new Double[arraySize];
 
 		// Create temporary object to store item infit statistics
-		Double[] iin = new Double[this.metaob.varindex.size()];
+		Double[] iin = new Double[arraySize];
 
 		// Create temporary object to store item standardized outfit
 		// statistics
-		Double[] isout = new Double[this.metaob.varindex.size()];
+		Double[] isout = new Double[arraySize];
 
 		// Create temporary object to store item standardized infit statistics
-		Double[] isin = new Double[this.metaob.varindex.size()];
+		Double[] isin = new Double[arraySize];
 
 		// Create temp object to store difficulty parameters
-		Double[] idif = new Double[this.metaob.varindex.size()];
+		Double[] idif = new Double[arraySize];
 
 		// Create temp object to store SE around difficulty estimates
-		Double[] idifse = new Double[this.metaob.varindex.size()];
+		Double[] idifse = new Double[arraySize];
 
 		// Loop over person indices
-		for(int i = 0; i < this.metaob.varindex.size(); i++) {
+		for(Integer i : this.stvars.getVariableIndex()) {
 
 			// Populate the array elements of the RaschFitStatistics object
 			// using the getPersonFitStatisticsAt(person index) method from
@@ -1349,14 +1351,13 @@ public class RaschPCM {
 		// Initialize a new 2d array of double valued objects with dimensions
 		// m x n, where m is the number of observations (rows) and n is the
 		// number of items (variables/columns) in the test data.
-		Double[][] res = new Double[this.metaob.obsindex.size()][this.metaob
-				.varindex.size()];
+		Double[][] res = new Double[this.metaob.getStataobs().getNobs().intValue()][this.stvars.getNvars()];
 
 		// Loop over observations
-		for(int i = 0; i < this.metaob.obsindex.size(); i++) {
+		for(Integer i : this.metaob.getObs13()) {
 
 			// Loop over items
-			for (int j = 0; j < this.metaob.varindex.size(); j++) {
+			for (Integer j : this.stvars.getVariableIndex()) {
 
 				// Populate the jth cell for the ith observation with the
 				// residual for that person/item
@@ -1548,17 +1549,17 @@ public class RaschPCM {
 	 */
 	public void returnResiduals() {
 
-		// Loop over the observations
-		for(int i = 0; i < this.metaob.obsindex.size(); i++) {
+		// Loop over observations
+		for(Integer i : this.metaob.getObs13()) {
 
-			// Loop over the variables
-			for (int j = 0; j < this.metaob.varindex.size(); j++) {
+			// Loop over items
+			for (Integer j : this.stvars.getVariableIndex()) {
 
 				// Adjust the row index to match Stata row indices
-				int row = i + 1;
+				Integer row = i + 1;
 
 				// Adjust the column index to match Stata column indices
-				int col = j + 1;
+				Integer col = j + 1;
 
 				// Create a name for the scalar
 				String resid = "res_" + row + "_" + col;
@@ -1580,11 +1581,11 @@ public class RaschPCM {
 	 */
 	public void returnItemParameters() {
 
-		// Loop over the variables passed to the Java application
-		for(int i = 0; i < this.metaob.varindex.size(); i++) {
+		// Loop over variables
+		for (Integer i : this.stvars.getVariableIndex()) {
 
 			// Get the Stata variable name for this variable index
-			String varname = this.metaob.statavars.getVariableName(i);
+			String varname = this.stvars.getVariableName(i);
 
 			// Set scalar value for the item-level outfit
 			Scalar.setValue(varname + "_outfit", getItemOutfit(i));

@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.paces-consulting</groupId>
-	<artifactId>stata-jmetrik13</artifactId>
-	<version>13.0.0-SNAPSHOT</version>
+	<artifactId>stata-jmetrik</artifactId>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>raschjmle</name>
 	<description>Proof of Concept project illustrating the use of
 		the Java API in Stata to integrate with existing software
@@ -45,7 +45,7 @@
 
 	<build>
 		<defaultGoal>package</defaultGoal>
-		<finalName>raschjmle13</finalName>
+		<finalName>raschjmle</finalName>
 		<plugins>
 
 			<!-- Sets the JDK to 1.8 -->
@@ -138,7 +138,7 @@
 		<dependency>
 			<groupId>org.paces-consulting</groupId>
 			<artifactId>stata-java</artifactId>
-			<version>13.0.0-SNAPSHOT</version>
+			<version>0.0.3-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 			<optional>true</optional>
@@ -146,7 +146,7 @@
 		<dependency>
 			<groupId>com.stata</groupId>
 			<artifactId>sfi</artifactId>
-			<version>13</version>
+			<version>14</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>

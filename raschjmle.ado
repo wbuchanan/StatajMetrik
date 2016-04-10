@@ -11,19 +11,26 @@ prog def raschjmle, rclass
 	syntax varlist(min = 2 num) [if] [in] [,								 ///   
 	noCENTitems GIter(integer 5000) PIter(integer 500) GConv(real 0.001)	 ///   
 	PConv(real 0.001) ADJustment(real 0.3) Intercept(real 0.0) 				 ///   
-	Scale(real 1.0) PRecision(integer 3) PRInt(string asis)]
-	
+	Scale(real 1.0) PRecision(integer 3) PRInt(string asis) ]
+
 	// Get the number of observations
 	marksample touse
 	
 	// Count if satisfying the condition
-	count if `touse'
+	qui: count if `touse'
 	
 	// Number of observations used by the program
 	loc progobs = `r(N)'
+
+	if !inlist(`"`print'"', "all", "person", "qaqc", "lookup") loc print `""""'
+
+	if `"`centitems'"' != "" loc centitems "false"
+	else loc centitems "true"
 	
 	// Call Java plugin to fit the model using the JMLE estimator
-	javacall org.paces.Stata.IRT rasch `varlist' `if'`in', args(`print')
+	javacall org.paces.Stata.IRT rasch `varlist' `if'`in',				    ///
+	args(`giter' `piter' `gconv' `pconv' `adjustment' `intercept' `scale'   ///
+	`precision' `centitems' `print')
 	
 	// Check calling version
 	if `c(version)' < 14 {
